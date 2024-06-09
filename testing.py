@@ -9,7 +9,7 @@ import json
 import pandas as pd
 
 # URL of webpage to scrape (CPI Index Summary)
-url = 'https://web.archive.org/web/20240228211014/https://www.bls.gov/news.release/cpi.t01.htm'
+url = 'https://web.archive.org/web/20240108211007/https://www.bls.gov/news.release/cpi.t01.htm'
 
 # send a GET request to the webpage
 response = rq.get(url)
@@ -41,15 +41,20 @@ if response.status_code == 200:
             row.insert(0, category_text)
             table_data.append(row)
 
-    headers = [th.get_text(strip=True) for th in table.find_all('th')]
-    
+    # headers = [th.get_text(strip=True) for th in table.find_all('th')]
+
+    name = soup.find(id = 'bodytext')
+    titles = name.find_all('th', class_ = 'stubhead')
+
+    headers = [header.text for header in titles]
+
     headers = [headers[i] for i in [0, 1, 5, 6, 7, 8, 9, 10, 11, 12]]
 
-    print(headers)
+    # print(headers)
 
     df = pd.DataFrame(table_data[:], columns=headers)
     print(df.to_string())
-    df.to_csv('january_2024.txt', index=False)
+    # df.to_csv('january_2024.txt', index=False)
 
 else:
     print(f'Failed to retrieve the webpage. Status code: {response.status_code}')    
