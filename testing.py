@@ -23,25 +23,15 @@ if response.status_code == 200:
     table = soup.find('table')
 
     # iterate over each row in the table
-    rows = table.find_all('tr')
+    rows = table.find('tbody').find_all('tr')
 
     # empty list storing data
     table_data = []
 
-    # retrieve column headers
-    header0 = table.find_all('tr')[0].find_all('th')
-    header1 = table.find_all('tr')[1].find_all('th')
-    header_row0 = [header.text.strip() for header in header0]
-    header_row1 = [header.text.strip() for header in header1]
-    
-    header_row1.insert(0, header_row0[1])
-    header_row1.insert(0,header_row0[0])
-
-    table_data.append(header_row1)
-
-    for i in rows:
-        category = i.find('th')
-        data = i.find_all('td')
+    # iterate through each row
+    for row in rows:
+        category = row.find('th')
+        data = row.find_all('td')
         if category:
             category_text = category.text.strip()
 
@@ -51,10 +41,14 @@ if response.status_code == 200:
             row.insert(0, category_text)
             table_data.append(row)
 
-    df = pd.DataFrame(table_data[1:], columns=table_data[0])
-    df = df.drop([df.index[0], df.index[1]])
-    df.to_csv('feb2024.txt', index=False)
+    headers = [th.get_text(strip=True) for th in table.find('thead').find_all('th')]
+    headers = [headers[i] for i in [0, 1, 5, 6, 7, 8, 9, 10, 11, 12]]
 
-    # print("Column names:", df.columns.values)
+    # print(headers)
+
+    df = pd.DataFrame(table_data[:], columns=headers)
+    print(df.to_string())
+    # df.to_csv('march_2024.txt', index=False)
+
 else:
     print(f'Failed to retrieve the webpage. Status code: {response.status_code}')    
