@@ -56,8 +56,8 @@ if response.status_code == 200:
 
     df = pd.DataFrame(table_data[1:], columns=table_data[0])
     df = df.drop([df.index[0], df.index[1]])
-    print(df)
+    df.to_csv('output.txt', index=False)
 
-    print("Column names:", df.columns.values)
+    # print("Column names:", df.columns.values)
 else:
     print(f'Failed to retrieve the webpage. Status code: {response.status_code}')    
