@@ -8,8 +8,8 @@ from warnings import warn
 import json
 import pandas as pd
 
-# URL of webpage to scrape (CPI Index Summary)
-url = 'https://web.archive.org/web/20231219095334/https://www.bls.gov/news.release/cpi.t01.htm'
+# URL of webpage to scrape (CPI Index Summary from web.archive.org)
+url = 'https://web.archive.org/web/20210118070801/https://www.bls.gov/news.release/cpi.t01.htm'
 
 # send a GET request to the webpage
 response = rq.get(url)
@@ -57,7 +57,7 @@ if response.status_code == 200:
 
     df = pd.DataFrame(table_data[:], columns=headers)
     print(df.to_string())
-    # df.to_csv('november_2023.txt', index=False)
+    # df.to_csv('november_2020.txt', index=False)
 
 else:
     print(f'Failed to retrieve the webpage. Status code: {response.status_code}')    
