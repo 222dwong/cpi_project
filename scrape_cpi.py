@@ -56,6 +56,7 @@ if response.status_code == 200:
     # print(headers)
 
     df = pd.DataFrame(table_data[:], columns=headers)
+    
     print(df.to_string())
     # df.to_csv('november_2019.txt', index=False)
 
