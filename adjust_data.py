@@ -4,11 +4,13 @@ import pandas as pd
 import os
 df = pd.read_csv('may_2024.txt')
 
-output_file = "testing.txt"
+output_file_cpi = "cpi_by_category.txt"
+output_file_weight = "cpi.weight_by_category.txt"
 
 headers = df.iloc[:,0]
 headers_row = headers.to_frame().transpose()
-headers_row.to_csv(output_file, mode = 'a', header = False)
+headers_row.to_csv(output_file_cpi, mode = 'a', header = False)
+headers_row.to_csv(output_file_weight, mode = 'a', header = False)
 # print(headers_row)
 
 # print(len(df.index))
@@ -41,14 +43,18 @@ for year in years:
                 df.iloc[:, 1:] = df.iloc[:, 1:].applymap(lambda x: float(str(x).replace(',', '')))
 
                 # select column for appropriate month of data
-                select_column = df.iloc[:,3]
-                single_row_df = select_column.to_frame().transpose()
+                select_column_cpi = df.iloc[:,3]
+                single_row_cpi_df = select_column_cpi.to_frame().transpose()
+
+                select_column_weight = df.iloc[:,1]
+                single_row_weight_df = select_column_weight.to_frame().transpose()                
 
                 # headers = df.iloc[:,0]
                 # headers_row = headers.to_frame().transpose()
                 # print(headers_row)
 
-                single_row_df.to_csv(output_file, mode = 'a', header = False)
+                single_row_cpi_df.to_csv(output_file_cpi, mode = 'a', header = False)
+                single_row_weight_df.to_csv(output_file_weight, mode = 'a', header = False)
 
             except Exception as e:
                 print(f"Error reading {file_path}: {e}")
