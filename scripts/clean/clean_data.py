@@ -66,5 +66,5 @@ print(df_weight.head(3).T)
 output_file_cpi = 'cpi_cleaned.txt'
 output_file_weight = 'weight_cleaned.txt'
 
-df_cpi.to_csv(output_file_cpi, mode = 'a', header = False)
-df_weight.to_csv(output_file_weight, mode = 'a', header = False)
+df_cpi.to_csv(output_file_cpi, mode = 'w', index = False, header = True)
+df_weight.to_csv(output_file_weight, mode = 'w', index = False, header = True)
