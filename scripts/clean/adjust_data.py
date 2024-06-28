@@ -43,7 +43,7 @@ for year in years:
                 df.iloc[:, 1:] = df.iloc[:, 1:].applymap(lambda x: float(str(x).replace(',', '')))
 
                 # select column for appropriate month of data
-                select_column_cpi = df.iloc[:,3]
+                select_column_cpi = df.iloc[:,4]
                 single_row_cpi_df = select_column_cpi.to_frame().transpose()
 
                 select_column_weight = df.iloc[:,1]
